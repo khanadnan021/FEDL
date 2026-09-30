@@ -261,6 +261,28 @@ export default function App() {
         onOpenLocationModal={() => setIsLocationModalOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        onSelectCategory={(cat) => {
+          setSelectedCategory(cat);
+          const el = document.getElementById('menu-catalog');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onSelectDietary={(diet) => {
+          setSelectedDietary(diet);
+          const el = document.getElementById('menu-catalog');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onSelectRestaurant={(id) => {
+          setSelectedRestaurantId(id);
+          const el = document.getElementById('menu-catalog');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onApplyPromo={(code) => {
+          const res = handleApplyPromo(code);
+          showToast(res.message);
+        }}
+        appliedPromo={appliedPromo}
+        onOpenCustomize={(dish) => setCustomizingDish(dish)}
+        onQuickAdd={handleQuickAdd}
       />
 
       {/* Floating Active Order Strip: ONLY SHOWN WHEN USER ACTUALLY HAS AN ACTIVE ORDER */}
