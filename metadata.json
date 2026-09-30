@@ -1,0 +1,6 @@
+{
+  "name": "BiteCraft - Online Food Ordering Portal",
+  "description": "A high-performance React online food ordering portal and UI recreation challenge featuring live restaurant menus, dish customization, sliding cart drawer, order tracking, and lab assignment group details.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
