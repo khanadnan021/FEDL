@@ -5,21 +5,18 @@
 
 import React, { useState, useMemo } from 'react';
 import { Dish, CartItem, Order, OrderStatus, CustomizationOption } from './types/food';
-import { DISHES, RESTAURANTS, REVIEWS, PROMO_CODES } from './data/mockData';
+import { DISHES, RESTAURANTS, PROMO_CODES } from './data/mockData';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { FeatureHighlights } from './components/FeatureHighlights';
 import { TrendingSection } from './components/TrendingSection';
 import { RestaurantSection } from './components/RestaurantSection';
 import { SpecialOffers } from './components/SpecialOffers';
 import { DishCard } from './components/DishCard';
-import { HowItWorks } from './components/HowItWorks';
 import { CustomizeModal } from './components/CustomizeModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { LocationModal } from './components/LocationModal';
-import { ReviewsSection } from './components/ReviewsSection';
 import { Footer } from './components/Footer';
 import { ArrowUpDown, CheckCircle, Search, Bike } from 'lucide-react';
 
@@ -307,9 +304,6 @@ export default function App() {
           onOpenLocationModal={() => setIsLocationModalOpen(true)}
         />
 
-        {/* Small Feature Highlights Row */}
-        <FeatureHighlights />
-
         {/* Trending Right Now Section */}
         <TrendingSection
           trendingDishes={trendingDishes}
@@ -471,12 +465,6 @@ export default function App() {
 
           </div>
         </section>
-
-        {/* How BiteCraft Works */}
-        <HowItWorks />
-
-        {/* Customer Reviews Section */}
-        <ReviewsSection reviews={REVIEWS} />
       </main>
 
       {/* Clean Footer */}

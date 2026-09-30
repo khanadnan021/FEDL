@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, MapPin, Search, ChevronDown, Bike, Menu, X } from 'lucide-react';
+import { ShoppingBag, MapPin, Search, Bike, Menu, X } from 'lucide-react';
 import { Order } from '../types/food';
 
 interface NavbarProps {
@@ -26,7 +26,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSearchChange,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 bg-neutral-950/95 backdrop-blur-md border-b border-neutral-800/80 transition-colors">
@@ -82,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               {searchQuery && (
                 <button
                   onClick={() => onSearchChange('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white cursor-pointer"
                 >
                   ✕
                 </button>
@@ -90,58 +89,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Clean Primary Navigation with 'More' dropdown for secondary items */}
-          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold text-neutral-300">
+          {/* Clean Primary Navigation */}
+          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-neutral-300">
             <a href="#trending-section" className="hover:text-amber-400 transition-colors">Trending</a>
-            <a href="#menu-catalog" className="hover:text-amber-400 transition-colors">Menu</a>
-            
-            {/* Secondary dropdown for Kitchens, How it Works, Reviews */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-                className="flex items-center gap-1 hover:text-amber-400 transition-colors py-1 cursor-pointer"
-              >
-                <span>Discover</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isMoreMenuOpen && (
-                <>
-                  <div className="fixed inset-0 z-30" onClick={() => setIsMoreMenuOpen(false)} />
-                  <div className="absolute right-0 mt-2 w-48 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-2xl z-40 animate-in fade-in zoom-in-95">
-                    <a
-                      href="#featured-kitchens"
-                      onClick={() => setIsMoreMenuOpen(false)}
-                      className="block px-3 py-2 rounded-xl text-xs text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
-                    >
-                      Top Kitchens
-                    </a>
-                    <a
-                      href="#how-it-works"
-                      onClick={() => setIsMoreMenuOpen(false)}
-                      className="block px-3 py-2 rounded-xl text-xs text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
-                    >
-                      How BiteCraft Works
-                    </a>
-                    <a
-                      href="#special-offers"
-                      onClick={() => setIsMoreMenuOpen(false)}
-                      className="block px-3 py-2 rounded-xl text-xs text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
-                    >
-                      Special Offers
-                    </a>
-                    <a
-                      href="#diner-reviews"
-                      onClick={() => setIsMoreMenuOpen(false)}
-                      className="block px-3 py-2 rounded-xl text-xs text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
-                    >
-                      Customer Reviews
-                    </a>
-                  </div>
-                </>
-              )}
-            </div>
+            <a href="#featured-kitchens" className="hover:text-amber-400 transition-colors">Kitchens</a>
+            <a href="#special-offers" className="hover:text-amber-400 transition-colors">Offers</a>
+            <a href="#menu-catalog" className="hover:text-amber-400 transition-colors">Full Menu</a>
           </nav>
 
           {/* Primary Action Buttons */}
@@ -244,11 +197,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               👨‍🍳 Top Kitchens
             </a>
             <a
-              href="#how-it-works"
+              href="#special-offers"
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2.5 bg-neutral-900 rounded-xl text-neutral-200 text-center font-medium"
             >
-              ⚡ How It Works
+              🏷️ Offers
             </a>
           </div>
         )}
