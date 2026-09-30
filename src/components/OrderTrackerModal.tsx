@@ -266,13 +266,13 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                   <span className="text-neutral-300">
                     <span className="text-amber-400 font-bold">{it.quantity}x</span> {it.dish.name}
                   </span>
-                  <span className="text-neutral-400 tabular-nums">${it.totalPrice.toFixed(2)}</span>
+                  <span className="text-neutral-400 tabular-nums">₹{Math.round(it.totalPrice)}</span>
                 </div>
               ))}
             </div>
             <div className="pt-2 border-t border-neutral-800/80 flex justify-between text-xs font-bold text-white">
               <span>Paid via {order.paymentMethod.toUpperCase()}</span>
-              <span className="text-amber-400 tabular-nums">${order.total.toFixed(2)}</span>
+              <span className="text-amber-400 tabular-nums">₹{Math.round(order.total)}</span>
             </div>
           </div>
 

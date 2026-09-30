@@ -160,7 +160,7 @@ export const RestaurantSection: React.FC<RestaurantSectionProps> = ({
                     <div className="flex items-center gap-1.5 font-medium">
                       <Bike className="w-3.5 h-3.5 text-neutral-400" />
                       <span className={restaurant.deliveryFee === 0 ? 'text-emerald-400 font-bold' : ''}>
-                        {restaurant.deliveryFee === 0 ? 'Free Delivery' : `$${restaurant.deliveryFee} Delivery`}
+                        {restaurant.deliveryFee === 0 ? 'Free Delivery' : `₹${restaurant.deliveryFee} Delivery`}
                       </span>
                     </div>
 

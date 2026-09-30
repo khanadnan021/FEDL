@@ -21,14 +21,14 @@ export const SpecialOffers: React.FC<SpecialOffersProps> = ({
     {
       code: 'FREESHIP',
       title: 'Free Priority Delivery',
-      desc: 'Zero delivery fee on all chef-crafted orders above $30.',
+      desc: 'Zero delivery fee on all chef-crafted orders above ₹399.',
       tag: 'Free Shipping',
       color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30',
     },
     {
-      code: 'WELCOME5',
-      title: '$5 Instant Credit',
-      desc: 'Instant $5 deduction applied at checkout to your subtotal.',
+      code: 'WELCOME50',
+      title: '₹50 Instant Credit',
+      desc: 'Instant ₹50 deduction applied at checkout to your subtotal.',
       tag: 'Flat Discount',
       color: 'from-purple-500/20 to-indigo-500/10 border-purple-500/30',
     },

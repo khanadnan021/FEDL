@@ -100,7 +100,7 @@ export const DishCard: React.FC<DishCardProps> = ({
           <div>
             <p className="text-xs text-neutral-500">Starting from</p>
             <p className="text-lg font-extrabold text-white tabular-nums tracking-tight">
-              ${dish.price.toFixed(2)}
+              ₹{dish.price}
             </p>
           </div>
 

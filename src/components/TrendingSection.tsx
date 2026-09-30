@@ -95,7 +95,7 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({
                 {/* Price and Add button */}
                 <div className="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between gap-2">
                   <p className="text-base font-extrabold text-white tabular-nums">
-                    ${dish.price.toFixed(2)}
+                    ₹{dish.price}
                   </p>
 
                   <button

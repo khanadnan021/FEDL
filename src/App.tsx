@@ -69,9 +69,9 @@ export default function App() {
     }
   }
 
-  const baseDeliveryFee = subtotal > 35 || subtotal === 0 ? 0 : 2.99;
+  const baseDeliveryFee = subtotal > 399 || subtotal === 0 ? 0 : 35;
   const deliveryFee = isFreeDelivery ? 0 : baseDeliveryFee;
-  const tax = subtotal > 0 ? (subtotal - discountAmount) * 0.08 : 0;
+  const tax = subtotal > 0 ? (subtotal - discountAmount) * 0.05 : 0;
   const grandTotal = Math.max(0, subtotal - discountAmount + deliveryFee + tax);
 
   // Add Item to Cart Handler
@@ -212,9 +212,10 @@ export default function App() {
     ].filter(Boolean);
   }, []);
 
-  // Filter & Sort Pipeline for Full Menu
-  const filteredDishes = useMemo(() => {
-    return DISHES.filter((dish) => {
+  // Filter & Sort Pipeline for Full Menu: Guaranteed to NEVER be empty
+  const { displayDishes, isFallback } = useMemo(() => {
+    // 1. Strict Filter
+    let matches = DISHES.filter((dish) => {
       if (selectedRestaurantId && dish.restaurantId !== selectedRestaurantId) {
         return false;
       }
@@ -237,12 +238,45 @@ export default function App() {
         }
       }
       return true;
-    }).sort((a, b) => {
+    });
+
+    let fallbackActive = false;
+
+    // 2. If strict filter has no match (e.g. selected restaurant has no pizza),
+    // fallback to showing that category from all partner kitchens
+    if (matches.length === 0 && selectedCategory !== 'all') {
+      matches = DISHES.filter((dish) => {
+        if (dish.category !== selectedCategory) return false;
+        if (selectedDietary !== 'all' && !dish.dietary.includes(selectedDietary as any)) return false;
+        return true;
+      });
+      fallbackActive = matches.length > 0;
+    }
+
+    // 3. If still empty, match dietary or restaurant
+    if (matches.length === 0) {
+      if (selectedDietary !== 'all') {
+        matches = DISHES.filter((dish) => dish.dietary.includes(selectedDietary as any));
+      } else if (selectedRestaurantId) {
+        matches = DISHES.filter((dish) => dish.restaurantId === selectedRestaurantId);
+      }
+      fallbackActive = matches.length > 0;
+    }
+
+    // 4. Absolute guaranteed fallback: ALWAYS return top chef specialties so user is NEVER stranded!
+    if (matches.length === 0) {
+      matches = DISHES.slice(0, 8);
+      fallbackActive = true;
+    }
+
+    const sorted = [...matches].sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating;
       if (sortBy === 'price-asc') return a.price - b.price;
       if (sortBy === 'prep-time') return a.prepTimeMinutes - b.prepTimeMinutes;
       return 0;
     });
+
+    return { displayDishes: sorted, isFallback: fallbackActive };
   }, [selectedRestaurantId, selectedCategory, selectedDietary, searchQuery, sortBy]);
 
   const activeRestaurant = RESTAURANTS.find((r) => r.id === selectedRestaurantId);
@@ -430,7 +464,7 @@ export default function App() {
 
                 <div className="flex items-center gap-3 self-end sm:self-auto">
                   <span className="text-neutral-400 tabular-nums">
-                    Showing <strong className="text-white">{filteredDishes.length}</strong> {filteredDishes.length === 1 ? 'dish' : 'dishes'}
+                    Showing <strong className="text-white">{displayDishes.length}</strong> {displayDishes.length === 1 ? 'dish' : 'dishes'}
                   </span>
 
                   {/* Sort Dropdown */}
@@ -452,45 +486,52 @@ export default function App() {
               </div>
             </div>
 
-            {/* Dishes Grid */}
-            {filteredDishes.length === 0 ? (
-              <div className="py-16 text-center bg-neutral-900/40 border border-neutral-800 rounded-2xl p-8 max-w-md mx-auto">
-                <Search className="w-8 h-8 text-neutral-600 mx-auto mb-3" />
-                <h3 className="text-base font-bold text-white">No dishes matched your criteria</h3>
-                <p className="text-xs text-neutral-400 mt-1">
-                  Try clearing your search query or switching category filters.
-                </p>
+            {/* Always Rendered Dishes Grid - Never Empty */}
+            {isFallback && (
+              <div className="mb-6 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-3 text-xs text-amber-300 animate-in fade-in">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+                  <span>Is selection ke liye hamare partner kitchens ki top chef recommendations pesh hain.</span>
+                </span>
                 <button
+                  type="button"
                   onClick={() => {
-                    setSearchQuery('');
                     setSelectedCategory('all');
                     setSelectedDietary('all');
                     setSelectedRestaurantId(null);
+                    setSearchQuery('');
                   }}
-                  className="mt-4 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+                  className="font-bold underline text-amber-400 hover:text-white cursor-pointer shrink-0"
                 >
-                  Reset all filters
+                  View All Dishes
                 </button>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredDishes.map((dish) => (
-                  <DishCard
-                    key={dish.id}
-                    dish={dish}
-                    onOpenCustomize={(d) => setCustomizingDish(d)}
-                    onQuickAdd={handleQuickAdd}
-                  />
-                ))}
-              </div>
             )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {displayDishes.map((dish) => (
+                <DishCard
+                  key={dish.id}
+                  dish={dish}
+                  onOpenCustomize={(d) => setCustomizingDish(d)}
+                  onQuickAdd={handleQuickAdd}
+                />
+              ))}
+            </div>
 
           </div>
         </section>
       </main>
 
-      {/* Clean Footer */}
-      <Footer onOpenLocationModal={() => setIsLocationModalOpen(true)} />
+      {/* Clean Footer with Bright History & Shaan */}
+      <Footer
+        onOpenLocationModal={() => setIsLocationModalOpen(true)}
+        onSelectRestaurant={(id) => {
+          setSelectedRestaurantId(id);
+          const el = document.getElementById('menu-catalog');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* Modals & Slide-out Drawers */}
       <CustomizeModal

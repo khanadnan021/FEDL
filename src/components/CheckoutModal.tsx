@@ -39,7 +39,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [cardNumber, setCardNumber] = useState('•••• •••• •••• 4242');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const speedSurcharge = deliverySpeed === 'priority' ? 2.0 : 0;
+  const speedSurcharge = deliverySpeed === 'priority' ? 40 : 0;
   const finalTotal = total + speedSurcharge;
 
   const handlePlaceOrder = (e: React.FormEvent) => {
@@ -189,7 +189,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               >
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-bold">⚡ Priority Express</span>
-                  <span className="text-xs text-amber-400 font-bold tabular-nums">+$2.00</span>
+                  <span className="text-xs text-amber-400 font-bold tabular-nums">+₹40</span>
                 </div>
                 <p className="text-[11px] text-neutral-400 mt-1">15-20 mins · Dedicated solo rider</p>
               </div>
@@ -287,7 +287,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <div className="p-3 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-300 space-y-1">
                 <p className="font-semibold text-amber-400">Cash on Delivery Notice</p>
                 <p className="text-[11px] text-neutral-400">
-                  Please keep exact change of <strong className="text-white tabular-nums">${finalTotal.toFixed(2)}</strong> ready at your doorstep.
+                  Please keep exact change of <strong className="text-white tabular-nums">₹{Math.round(finalTotal)}</strong> ready at your doorstep.
                 </p>
               </div>
             )}
@@ -297,27 +297,27 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <div className="p-4 bg-neutral-950 border border-neutral-800 rounded-2xl space-y-2 text-xs">
             <div className="flex justify-between text-neutral-400">
               <span>{items.length} Items Total</span>
-              <span className="text-white tabular-nums">${subtotal.toFixed(2)}</span>
+              <span className="text-white tabular-nums">₹{Math.round(subtotal)}</span>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-emerald-400">
                 <span>Discount Applied</span>
-                <span className="tabular-nums">-${discount.toFixed(2)}</span>
+                <span className="tabular-nums">-₹{Math.round(discount)}</span>
               </div>
             )}
             <div className="flex justify-between text-neutral-400">
               <span>Delivery Fee</span>
               <span className="text-white tabular-nums">
-                {deliveryFee + speedSurcharge === 0 ? 'FREE' : `$${(deliveryFee + speedSurcharge).toFixed(2)}`}
+                {deliveryFee + speedSurcharge === 0 ? 'FREE' : `₹${Math.round(deliveryFee + speedSurcharge)}`}
               </span>
             </div>
             <div className="flex justify-between text-neutral-400">
-              <span>Estimated Tax (8%)</span>
-              <span className="text-white tabular-nums">${tax.toFixed(2)}</span>
+              <span>Estimated GST (5%)</span>
+              <span className="text-white tabular-nums">₹{Math.round(tax)}</span>
             </div>
             <div className="pt-2 border-t border-neutral-800 flex justify-between text-sm font-bold text-white">
               <span>Total Payable</span>
-              <span className="text-lg text-amber-400 tabular-nums">${finalTotal.toFixed(2)}</span>
+              <span className="text-lg text-amber-400 tabular-nums">₹{Math.round(finalTotal)}</span>
             </div>
           </div>
 
@@ -334,7 +334,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             ) : (
               <>
-                <span>Place Order & Track Live · ${finalTotal.toFixed(2)}</span>
+                <span>Place Order & Track Live · ₹{Math.round(finalTotal)}</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}

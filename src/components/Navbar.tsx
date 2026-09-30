@@ -243,7 +243,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                 {dish.name}
                               </p>
                               <div className="flex items-center gap-2 mt-0.5 text-[11px] text-neutral-400">
-                                <span className="text-amber-400 font-bold">${dish.price.toFixed(2)}</span>
+                                <span className="text-amber-400 font-bold">₹{dish.price}</span>
                                 <span>·</span>
                                 <span className="flex items-center gap-0.5 text-amber-300">
                                   <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
@@ -468,7 +468,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                 )}
                                 {promo.flatDiscount && (
                                   <span className="text-[10px] text-orange-400 font-bold">
-                                    ${promo.flatDiscount} Flat Off
+                                    ₹{promo.flatDiscount} Flat Off
                                   </span>
                                 )}
                               </div>
@@ -678,7 +678,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 )}
               </div>
               <span className="tabular-nums font-extrabold">
-                {cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : 'Cart'}
+                {cartTotal > 0 ? `₹${Math.round(cartTotal)}` : 'Cart'}
               </span>
             </button>
 

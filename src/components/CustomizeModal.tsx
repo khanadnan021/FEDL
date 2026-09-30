@@ -115,7 +115,7 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
                         {isSelected && <Check className="w-3.5 h-3.5 text-amber-400" />}
                       </div>
                       <span className="text-xs text-neutral-400 mt-1 tabular-nums">
-                        {size.extraPrice === 0 ? 'Standard' : `+$${size.extraPrice.toFixed(2)}`}
+                        {size.extraPrice === 0 ? 'Standard' : `+₹${size.extraPrice}`}
                       </span>
                     </button>
                   );
@@ -159,7 +159,7 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
                         <span className="text-xs sm:text-sm font-medium">{addon.name}</span>
                       </div>
                       <span className="text-xs font-semibold text-amber-400 tabular-nums">
-                        +${addon.price.toFixed(2)}
+                        +₹{addon.price}
                       </span>
                     </div>
                   );
@@ -214,7 +214,7 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
           >
             <span>Add to Order</span>
             <span className="tabular-nums font-extrabold text-base">
-              ${grandTotal.toFixed(2)}
+              ₹{grandTotal}
             </span>
           </button>
         </div>

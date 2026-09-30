@@ -48,9 +48,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     }
   }
 
-  const baseDeliveryFee = subtotal > 35 || subtotal === 0 ? 0 : 2.99;
+  const baseDeliveryFee = subtotal > 399 || subtotal === 0 ? 0 : 35;
   const deliveryFee = isFreeDeliveryByPromo ? 0 : baseDeliveryFee;
-  const taxesAndPackaging = subtotal > 0 ? (subtotal - discountAmount) * 0.08 : 0;
+  const taxesAndPackaging = subtotal > 0 ? (subtotal - discountAmount) * 0.05 : 0;
   const grandTotal = Math.max(0, subtotal - discountAmount + deliveryFee + taxesAndPackaging);
 
   const handleApplyPromoCode = (e: React.FormEvent) => {
@@ -186,7 +186,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </div>
 
                       <span className="text-sm font-bold text-white tabular-nums">
-                        ${item.totalPrice.toFixed(2)}
+                        ₹{Math.round(item.totalPrice)}
                       </span>
                     </div>
 
@@ -261,13 +261,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="pt-3 border-t border-neutral-800 space-y-2 text-xs text-neutral-400">
                 <div className="flex justify-between">
                   <span>Items Subtotal</span>
-                  <span className="text-white tabular-nums font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="text-white tabular-nums font-medium">₹{Math.round(subtotal)}</span>
                 </div>
 
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Discount Applied</span>
-                    <span className="tabular-nums font-semibold">-${discountAmount.toFixed(2)}</span>
+                    <span className="tabular-nums font-semibold">-₹{Math.round(discountAmount)}</span>
                   </div>
                 )}
 
@@ -277,19 +277,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     {deliveryFee === 0 ? (
                       <span className="text-emerald-400 font-semibold">FREE</span>
                     ) : (
-                      `$${deliveryFee.toFixed(2)}`
+                      `₹${Math.round(deliveryFee)}`
                     )}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Taxes & Packaging (8%)</span>
-                  <span className="text-white tabular-nums font-medium">${taxesAndPackaging.toFixed(2)}</span>
+                  <span>Taxes & Packaging (5% GST)</span>
+                  <span className="text-white tabular-nums font-medium">₹{Math.round(taxesAndPackaging)}</span>
                 </div>
 
                 <div className="pt-2 border-t border-neutral-800 flex justify-between text-sm font-bold text-white">
                   <span>Grand Total</span>
-                  <span className="text-base text-amber-400 tabular-nums">${grandTotal.toFixed(2)}</span>
+                  <span className="text-base text-amber-400 tabular-nums">₹{Math.round(grandTotal)}</span>
                 </div>
               </div>
 
@@ -305,7 +305,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               >
                 <span>Proceed to Checkout</span>
                 <div className="flex items-center gap-2">
-                  <span className="tabular-nums text-base">${grandTotal.toFixed(2)}</span>
+                  <span className="tabular-nums text-base">₹{Math.round(grandTotal)}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
